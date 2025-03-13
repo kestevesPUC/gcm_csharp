@@ -17,7 +17,7 @@ namespace MyApp.Namespace
         [HttpGet("list-all")]    
         public IActionResult GetAllUsers() 
         {
-            var users = dbContext.Users.ToList();
+            var users = dbContext.user.ToList();
 
             return Ok(users);
         }
