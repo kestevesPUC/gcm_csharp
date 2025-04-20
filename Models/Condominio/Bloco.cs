@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MinhaApi;
 
+[Table("bloco")]
 public class Bloco
 {
     [Key]

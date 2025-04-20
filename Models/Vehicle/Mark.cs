@@ -3,12 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MinhaApi;
 
-[Table("apartament")]
-public class Apartment
+[Table("mark", Schema = "vehicle")]
+public class Mark
 {
     [Key]
     public int id { get; set; }
-    public int number { get; set; }
-
-    public Bloco bloco { get; set; }
+    public string name { get; set; }
 }

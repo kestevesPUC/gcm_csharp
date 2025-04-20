@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class TypeVehicle
+[Table("type", Schema = "vehicle")]
+public class Type
 {
     [Key]
     public int id { get; set; }
