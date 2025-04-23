@@ -14,12 +14,16 @@ namespace MyApp.Namespace
             this.dbContext = dbContext;
         }
 
-        [HttpGet("list-all")]    
-        public IActionResult GetAllUsers() 
+        [HttpPost("list-all")]    
+        public async Task<dynamic> GetAllUsers() 
         {
             var users = dbContext.user.ToList();
 
-            return Ok(users);
+            return new {
+                success = true,
+                data = users,
+                status = 200
+            };
         }
 
         [HttpPost]

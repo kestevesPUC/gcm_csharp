@@ -9,16 +9,16 @@ public class User
 {
     [Key]
     public int id { get; set; }
-    [Column("name")]
-    public string name { get; set;}
-    public string email { get; set;}
-    public Apartment apartment { get; set;}
-    public TypeUser type { get; set;}
+    public string name { get; set; }
+    public string? email { get; set; }
+    public string password { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime? updated_at { get; set; }
     
-    public List<Vehicle> vehicles { get; set; } = new();
     
-    [DefaultValue(true)]
-    public bool active { get; set;} = true;
     
-    public DateTime created_at { get; set; } = DateTime.UtcNow;
+    [ForeignKey("apartment_id")]
+    public Apartment? apartment { get; set; }
+    public List<Profile> profile { get; set; }
+    public List<Vehicle> vehicles { get; set; }
 }

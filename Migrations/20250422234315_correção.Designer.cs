@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MinhaApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422234315_correção")]
+    partial class correção
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,7 +200,10 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("apartment_id")
+                    b.Property<int>("apartament_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("apartmentid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("created_at")
@@ -219,7 +225,7 @@ namespace MinhaApi.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("apartment_id");
+                    b.HasIndex("apartmentid");
 
                     b.ToTable("user", "user");
                 });
@@ -425,12 +431,12 @@ namespace MinhaApi.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<int>("user_id")
+                    b.Property<int>("userid")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("userid");
 
                     b.ToTable("visit", "user");
                 });
@@ -488,7 +494,7 @@ namespace MinhaApi.Migrations
                 {
                     b.HasOne("MinhaApi.Apartment", "apartment")
                         .WithMany()
-                        .HasForeignKey("apartment_id")
+                        .HasForeignKey("apartmentid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -591,7 +597,7 @@ namespace MinhaApi.Migrations
                 {
                     b.HasOne("MinhaApi.User", "user")
                         .WithMany()
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("userid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

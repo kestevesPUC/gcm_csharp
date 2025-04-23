@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MinhaApi;
 
-[Table("mark", Schema = "vehicle")]
-public class Mark
+[Table("brand", Schema = "vehicle")]
+public class Brand
 {
     [Key]
     public int id { get; set; }
