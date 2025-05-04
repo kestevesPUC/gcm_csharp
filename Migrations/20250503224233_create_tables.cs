@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MinhaApi.Migrations
 {
     /// <inheritdoc />
-    public partial class correção : Migration
+    public partial class create_tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,6 +86,20 @@ namespace MinhaApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_model", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "profile",
+                schema: "administration",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_profile", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,20 +186,27 @@ namespace MinhaApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: true),
-                    apartament_id = table.Column<int>(type: "integer", nullable: false),
                     password = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    apartmentid = table.Column<int>(type: "integer", nullable: false)
+                    apartment_id = table.Column<int>(type: "integer", nullable: false),
+                    profile_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user", x => x.id);
                     table.ForeignKey(
-                        name: "FK_user_apartament_apartmentid",
-                        column: x => x.apartmentid,
+                        name: "FK_user_apartament_apartment_id",
+                        column: x => x.apartment_id,
                         principalSchema: "condominium",
                         principalTable: "apartament",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_profile_profile_id",
+                        column: x => x.profile_id,
+                        principalSchema: "administration",
+                        principalTable: "profile",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -222,28 +243,6 @@ namespace MinhaApi.Migrations
                     table.ForeignKey(
                         name: "FK_called_user_responsible_id",
                         column: x => x.responsible_id,
-                        principalSchema: "user",
-                        principalTable: "user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "profile",
-                schema: "administration",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_profile", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_profile_user_user_id",
-                        column: x => x.user_id,
                         principalSchema: "user",
                         principalTable: "user",
                         principalColumn: "id",
@@ -324,31 +323,6 @@ namespace MinhaApi.Migrations
                     table.ForeignKey(
                         name: "FK_vehicle_user_user_id",
                         column: x => x.user_id,
-                        principalSchema: "user",
-                        principalTable: "user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "visit",
-                schema: "user",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    userid = table.Column<int>(type: "integer", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false),
-                    date_start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    date_end = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_visit", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_visit_user_userid",
-                        column: x => x.userid,
                         principalSchema: "user",
                         principalTable: "user",
                         principalColumn: "id",
@@ -442,22 +416,22 @@ namespace MinhaApi.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_profile_user_id",
-                schema: "administration",
-                table: "profile",
-                column: "user_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_statement_user_id",
                 schema: "user",
                 table: "statement",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_apartmentid",
+                name: "IX_user_apartment_id",
                 schema: "user",
                 table: "user",
-                column: "apartmentid");
+                column: "apartment_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_profile_id",
+                schema: "user",
+                table: "user",
+                column: "profile_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_vehicle_brand_id",
@@ -488,12 +462,6 @@ namespace MinhaApi.Migrations
                 schema: "vehicle",
                 table: "vehicle",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_visit_userid",
-                schema: "user",
-                table: "visit",
-                column: "userid");
         }
 
         /// <inheritdoc />
@@ -504,20 +472,12 @@ namespace MinhaApi.Migrations
                 schema: "called");
 
             migrationBuilder.DropTable(
-                name: "profile",
-                schema: "administration");
-
-            migrationBuilder.DropTable(
                 name: "statement",
                 schema: "user");
 
             migrationBuilder.DropTable(
                 name: "vehicle",
                 schema: "vehicle");
-
-            migrationBuilder.DropTable(
-                name: "visit",
-                schema: "user");
 
             migrationBuilder.DropTable(
                 name: "called",
@@ -550,6 +510,10 @@ namespace MinhaApi.Migrations
             migrationBuilder.DropTable(
                 name: "apartament",
                 schema: "condominium");
+
+            migrationBuilder.DropTable(
+                name: "profile",
+                schema: "administration");
 
             migrationBuilder.DropTable(
                 name: "condominium",

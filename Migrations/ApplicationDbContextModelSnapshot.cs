@@ -17,7 +17,7 @@ namespace MinhaApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -96,10 +96,11 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("bloco")
-                        .HasColumnType("integer");
+                    b.Property<int>("CondominiumId")
+                        .HasColumnType("integer")
+                        .HasColumnName("condominium_id");
 
-                    b.Property<int>("condominium_id")
+                    b.Property<int>("bloco")
                         .HasColumnType("integer");
 
                     b.Property<int>("number")
@@ -107,7 +108,7 @@ namespace MinhaApi.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("condominium_id");
+                    b.HasIndex("CondominiumId");
 
                     b.ToTable("apartament", "condominium");
                 });
@@ -154,8 +155,9 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("address_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer")
+                        .HasColumnName("address_id");
 
                     b.Property<string>("cnpj")
                         .IsRequired()
@@ -167,7 +169,7 @@ namespace MinhaApi.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("address_id");
+                    b.HasIndex("AddressId");
 
                     b.ToTable("condominium", "condominium");
                 });
@@ -197,8 +199,13 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("apartment_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("ApartmentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("apartment_id");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone");
@@ -219,7 +226,9 @@ namespace MinhaApi.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("apartment_id");
+                    b.HasIndex("ApartmentId");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("user", "user");
                 });
@@ -270,12 +279,7 @@ namespace MinhaApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
-
                     b.HasKey("id");
-
-                    b.HasIndex("user_id");
 
                     b.ToTable("profile", "administration");
                 });
@@ -356,83 +360,55 @@ namespace MinhaApi.Migrations
 
             modelBuilder.Entity("Vehicle", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<int>("brand_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("color_id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("model_id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("plate")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("type_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("brand_id");
-
-                    b.HasIndex("color_id");
-
-                    b.HasIndex("model_id");
-
-                    b.HasIndex("type_id");
-
-                    b.HasIndex("user_id");
-
-                    b.ToTable("vehicle", "vehicle");
-                });
-
-            modelBuilder.Entity("Visit", b =>
-                {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer")
+                        .HasColumnName("brand_id");
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("integer")
+                        .HasColumnName("color_id");
+
+                    b.Property<int>("ModelId")
+                        .HasColumnType("integer")
+                        .HasColumnName("model_id");
+
+                    b.Property<string>("Plate")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("plate");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("type_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("date_end")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_end");
+                    b.HasKey("Id");
 
-                    b.Property<DateTime>("date_start")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_start");
+                    b.HasIndex("BrandId");
 
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                    b.HasIndex("ColorId");
 
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
+                    b.HasIndex("ModelId");
 
-                    b.HasKey("id");
+                    b.HasIndex("TypeId");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("visit", "user");
+                    b.ToTable("vehicle", "vehicle");
                 });
 
             modelBuilder.Entity("Called", b =>
@@ -464,35 +440,43 @@ namespace MinhaApi.Migrations
 
             modelBuilder.Entity("MinhaApi.Apartment", b =>
                 {
-                    b.HasOne("MinhaApi.Condominium", "condominium")
+                    b.HasOne("MinhaApi.Condominium", "Condominium")
                         .WithMany("apartments")
-                        .HasForeignKey("condominium_id")
+                        .HasForeignKey("CondominiumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("condominium");
+                    b.Navigation("Condominium");
                 });
 
             modelBuilder.Entity("MinhaApi.Condominium", b =>
                 {
-                    b.HasOne("Address", "address")
+                    b.HasOne("Address", "Address")
                         .WithMany()
-                        .HasForeignKey("address_id")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("address");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("MinhaApi.User", b =>
                 {
-                    b.HasOne("MinhaApi.Apartment", "apartment")
+                    b.HasOne("MinhaApi.Apartment", "Apartment")
                         .WithMany()
-                        .HasForeignKey("apartment_id")
+                        .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("apartment");
+                    b.HasOne("Profile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Apartment");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("Occurrence", b =>
@@ -522,17 +506,6 @@ namespace MinhaApi.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Profile", b =>
-                {
-                    b.HasOne("MinhaApi.User", "user")
-                        .WithMany("profile")
-                        .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("Statement", b =>
                 {
                     b.HasOne("MinhaApi.User", "user")
@@ -548,54 +521,43 @@ namespace MinhaApi.Migrations
                 {
                     b.HasOne("MinhaApi.Brand", "brand")
                         .WithMany()
-                        .HasForeignKey("brand_id")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MinhaApi.Color", "color")
+                    b.HasOne("MinhaApi.Color", "Color")
                         .WithMany()
-                        .HasForeignKey("color_id")
+                        .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MinhaApi.Model", "model")
+                    b.HasOne("MinhaApi.Model", "Model")
                         .WithMany()
-                        .HasForeignKey("model_id")
+                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TypeVehicle", "type")
                         .WithMany()
-                        .HasForeignKey("type_id")
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MinhaApi.User", "user")
-                        .WithMany("vehicles")
-                        .HasForeignKey("user_id")
+                    b.HasOne("MinhaApi.User", "User")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Model");
+
+                    b.Navigation("User");
 
                     b.Navigation("brand");
 
-                    b.Navigation("color");
-
-                    b.Navigation("model");
-
                     b.Navigation("type");
-
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Visit", b =>
-                {
-                    b.HasOne("MinhaApi.User", "user")
-                        .WithMany()
-                        .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("MinhaApi.Condominium", b =>
@@ -605,9 +567,7 @@ namespace MinhaApi.Migrations
 
             modelBuilder.Entity("MinhaApi.User", b =>
                 {
-                    b.Navigation("profile");
-
-                    b.Navigation("vehicles");
+                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }

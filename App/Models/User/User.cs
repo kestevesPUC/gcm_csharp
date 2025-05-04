@@ -17,8 +17,14 @@ public class User
     
     
     
-    [ForeignKey("apartment_id")]
-    public Apartment? apartment { get; set; }
-    public List<Profile> profile { get; set; }
-    public List<Vehicle> vehicles { get; set; }
+    [Column("apartment_id")]
+    public int ApartmentId { get; set; }
+    public Apartment Apartment { get; set; }
+
+
+    [Column("profile_id")]
+    public int ProfileId { get; set; }
+    public Profile Profile { get; set; }
+
+    public List<Vehicle> Vehicles { get; set; }
 }

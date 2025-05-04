@@ -11,7 +11,8 @@ public class Condominium
     public string cnpj { get; set; }
     public string name { get; set; }
 
-    [ForeignKey("address_id")]
-    public Address address { get; set; }
+    [Column("address_id")]
+    public int AddressId { get; set; }
+    public Address Address { get; set; }
     public List<Apartment> apartments { get; set; }
 }

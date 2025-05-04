@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MinhaApi;
 
 public class UserRepo
@@ -34,4 +35,12 @@ public class UserRepo
             message = "Houve um problema ao tentar criar o usuário."
         };
     }
+
+    
+    public async Task<dynamic> RecuperarUsuarios() {
+        return await this._context.user
+            .ToListAsync();
+    }
+
+    
 }

@@ -12,6 +12,7 @@ public class Apartment
 
     public int bloco { get; set; }
 
-    [ForeignKey("condominium_id")]
-    public Condominium condominium { get; set; }
+    [Column("condominium_id")]
+    public int CondominiumId { get; set; }
+    public Condominium Condominium { get; set; }
 }

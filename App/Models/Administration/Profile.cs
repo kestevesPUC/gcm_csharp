@@ -8,9 +8,5 @@ public class Profile
     [Key]
     public int id { get; set; }
     public string name { get; set; }
-
-    public int user_id { get; set; }
     
-    [ForeignKey("user_id")]
-    public User user { get; set; }
 }

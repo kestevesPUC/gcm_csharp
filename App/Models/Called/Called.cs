@@ -8,13 +8,16 @@ public class Called
     [Key]
     public int id { get; set; }
     
+    public string title { get; set; }
+    public string description { get; set; }
+    
     [ForeignKey("applicant_id")]
     public User applicant { get; set; }
     
     [ForeignKey("responsible_id")]
     public User responsible { get; set; }
     [ForeignKey("status_id")]
-    public Status status { get; set; }
+    public Status Status { get; set; }
     public DateTime? created_at { get; set; }
 
 }
