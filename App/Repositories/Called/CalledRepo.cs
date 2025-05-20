@@ -12,6 +12,9 @@ public class CalledRepo
 
     public async Task<List<Called>> GetCalleds() {
         return  await _context.called
+            .Include(c => c.Status)
+            .Include(c => c.Responsible)
+            .Include(c => c.Applicant)
             .OrderByDescending(c => c.id)
             .ToListAsync();
     }

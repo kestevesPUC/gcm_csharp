@@ -12,10 +12,10 @@ public class Called
     public string description { get; set; }
     
     [ForeignKey("applicant_id")]
-    public User applicant { get; set; }
+    public User Applicant { get; set; }
     
     [ForeignKey("responsible_id")]
-    public User responsible { get; set; }
+    public User Responsible { get; set; }
     [ForeignKey("status_id")]
     public Status Status { get; set; }
     public DateTime? created_at { get; set; }
