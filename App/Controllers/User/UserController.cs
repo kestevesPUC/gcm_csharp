@@ -50,6 +50,41 @@ public class UserController : ControllerBase
         }
     }
 
+    [HttpPost("list-all-employee")]
+    public async Task<dynamic> GetAllEmployee()
+    {
+        try
+        {
+            var employers = await this._userRepo.RecuperarEmployee();
+
+            if (employers == null)
+            {
+                return new
+                {
+                    success = false,
+                    message = "Não foi identificado funcionários.",
+                    status = 204
+                };
+            }
+
+            return new
+            {
+                success = true,
+                data = employers,
+                status = 200
+            };
+        }
+        catch (System.Exception e)
+        {
+            return new
+            {
+                success = false,
+                message = "Houve um erro interno ao tentar recuperar os usuários.",
+                status = 500
+            };
+        }
+    }
+
 
     [HttpPost("create")]
     public async Task<dynamic> CreateUser([FromBody] dynamic json)
@@ -61,9 +96,10 @@ public class UserController : ControllerBase
         string password = jsonObj["password"]?.ToString();
         int bloco = int.Parse(jsonObj["bloco"]?.ToString());
         int number = int.Parse(jsonObj["apto"]?.ToString());
+        int profile = int.Parse(jsonObj["profile"]?.ToString());
 
 
-        return await this._userRepo.Create(name, email, password, bloco, number);
+        return await this._userRepo.Create(name, email, password, bloco, number, profile);
     }
 
 

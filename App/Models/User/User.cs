@@ -18,7 +18,7 @@ public class User
     
     
     [Column("apartment_id")]
-    public int ApartmentId { get; set; }
+    public int? ApartmentId { get; set; }
     public Apartment Apartment { get; set; }
 
 

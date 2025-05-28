@@ -7,16 +7,21 @@ public class Called
 {
     [Key]
     public int id { get; set; }
-    
+
     public string title { get; set; }
     public string description { get; set; }
-    
-    [ForeignKey("applicant_id")]
+
+    [Column("status_id")]
+    public int statusId { get; set; }
+    [Column("applicant_id")]
+    public int applicantId { get; set; }
+
+    [Column("responsible_id")]
+    public int? responsibleId { get; set; }
     public User Applicant { get; set; }
-    
-    [ForeignKey("responsible_id")]
+
     public User Responsible { get; set; }
-    [ForeignKey("status_id")]
+
     public Status Status { get; set; }
     public DateTime? created_at { get; set; }
 

@@ -81,6 +81,14 @@ public class UserRepo
     {
         return await this._context.user
             .Include(u => u.Apartment)
+            .Where(u => u.ProfileId == 2)
+            .ToListAsync();
+    }
+    public async Task<List<User>> RecuperarEmployee()
+    {
+        return await this._context.user
+            .Include(u => u.Profile)
+            .Where(u => u.ProfileId != 2)
             .ToListAsync();
     }
 
