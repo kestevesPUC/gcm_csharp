@@ -10,31 +10,10 @@ public class UserRepo
         this._context = contex;
     }
 
-    public async Task<dynamic> Create(string name, string email, string password, int bloco, int number, int perfil = 1)
+    public async Task<dynamic> Create(string name, string email, string password, int bloco, int number, int perfil = 1, string cpf	= "")
     {
         try
         {
-
-            ApartmentRepo apartment = new ApartmentRepo(this._context);
-
-            var apto = await apartment.RecuperaApto(bloco, number);
-
-            Apartment apartment1;
-            if (apto == null)
-            {
-                apartment1 = new Apartment();
-                apartment1.number = number;
-                apartment1.bloco = bloco;
-                apartment1.bloco = bloco;
-                apartment1.CondominiumId = 1;
-
-                this._context.Add(apartment1);
-                this._context.SaveChanges();
-            }
-            else
-            {
-                apartment1 = apto;
-            }
 
             User user = new User();
             user.name = name;
@@ -42,9 +21,36 @@ public class UserRepo
             user.ProfileId = perfil;
             user.password = Util.GerarHashSenha(password);
             user.created_at = Util.DateTimeNow();
+            user.cpf = cpf;
 
-            user.ApartmentId = apartment1.id;
+            if (perfil == 2)
+            {
 
+
+                ApartmentRepo apartment = new ApartmentRepo(this._context);
+
+                var apto = await apartment.RecuperaApto(bloco, number);
+
+                Apartment apartment1;
+                if (apto == null)
+                {
+                    apartment1 = new Apartment();
+                    apartment1.number = number;
+                    apartment1.bloco = bloco;
+                    apartment1.bloco = bloco;
+                    apartment1.CondominiumId = 1;
+
+                    this._context.Add(apartment1);
+                    this._context.SaveChanges();
+                }
+                else
+                {
+                    apartment1 = apto;
+                }
+
+                user.ApartmentId = apartment1.id;
+
+            }
             this._context.user.Add(user);
 
             if (this._context.SaveChanges() > 0)
@@ -75,14 +81,28 @@ public class UserRepo
             };
         }
     }
-
-
     public async Task<dynamic> RecuperarUsuarios()
     {
         return await this._context.user
             .Include(u => u.Apartment)
             .Where(u => u.ProfileId == 2)
             .ToListAsync();
+    }
+
+    public async Task<dynamic> RecuperarUsuario(int id)
+    {
+        return await this._context.user
+            .Include(u => u.Apartment)
+            .Where(u => u.id == id)
+            .ToListAsync();
+    }
+    
+    public async Task<dynamic> RecuperarUsuarioPeloCpf(string cpf)
+    {
+        return await this._context.user
+            .Include(u => u.Apartment)
+            .Where(u => u.cpf.Equals(cpf))
+            .FirstOrDefaultAsync();
     }
     public async Task<List<User>> RecuperarEmployee()
     {
@@ -94,7 +114,7 @@ public class UserRepo
 
     public async Task<List<Profile>> RecuperarTiposUsuario()
     {
-        return await this._context.profile.ToListAsync();
+        return await this._context.profile.Where(p => p.id != 2).ToListAsync();
     }
 
     public async Task<dynamic> ValidaSenha(string email, string password)

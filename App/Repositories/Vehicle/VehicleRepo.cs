@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MinhaApi;
 
 public class VehicleRepo
 {
@@ -44,7 +45,7 @@ public class VehicleRepo
                 .Include(v => v.Type)
                 .ToListAsync();
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             return null;
         }
@@ -74,7 +75,7 @@ public class VehicleRepo
             };
 
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
 
             return new
@@ -84,6 +85,27 @@ public class VehicleRepo
                 status = 500
             };
         }
+    }
+
+
+    public async Task<List<TypeVehicle>> GetTypes()
+    {
+        return await _context.typevehicle.ToListAsync();
+    }
+
+    public async Task<List<Color>> GetColors()
+    {
+        return await _context.color.ToListAsync();
+    }
+
+    public async Task<List<Brand>> GetBrands()
+    {
+        return await _context.brand.ToListAsync();
+    }
+
+    public async Task<List<Model>> GetModels()
+    {
+        return await _context.model.ToListAsync();
     }
 
 

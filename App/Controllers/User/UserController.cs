@@ -94,9 +94,14 @@ public class UserController : ControllerBase
         string name = jsonObj["name"]?.ToString();
         string email = jsonObj["email"]?.ToString();
         string password = jsonObj["password"]?.ToString();
-        int bloco = int.Parse(jsonObj["bloco"]?.ToString());
-        int number = int.Parse(jsonObj["apto"]?.ToString());
         int profile = int.Parse(jsonObj["profile"]?.ToString());
+        int bloco = 0;
+        int number = 0;
+        if (profile == 2)
+        {
+            bloco = int.Parse(jsonObj["bloco"]?.ToString());
+            number = int.Parse(jsonObj["apto"]?.ToString());
+        }
 
 
         return await this._userRepo.Create(name, email, password, bloco, number, profile);
@@ -124,6 +129,44 @@ public class UserController : ControllerBase
             status = 204,
             message = "Não foi possível recuperar os tipos de usuários."
         };
+    }
+
+    [HttpPost("get-user")]
+    public async Task<dynamic> GetUser(dynamic data)
+    {
+        try
+        {
+
+            JObject jsonObj = JObject.Parse(data.ToString());
+            int proprietario = int.Parse(jsonObj["proprietario"]?.ToString());
+            var users = await this._userRepo.RecuperarUsuario(proprietario);
+
+            if (users == null)
+            {
+                return new
+                {
+                    success = false,
+                    message = "Não foi identificado usuários.",
+                    status = 204
+                };
+            }
+
+            return new
+            {
+                success = true,
+                data = users,
+                status = 200
+            };
+        }
+        catch (System.Exception e)
+        {
+            return new
+            {
+                success = false,
+                message = "Houve um erro interno ao tentar recuperar os usuários.",
+                status = 500
+            };
+        }
     }
 
 

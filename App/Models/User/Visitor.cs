@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MinhaApi;
 
-[Table("statement", Schema = "user")]
-public class Statement
+[Table("visitor", Schema = "user")]
+public class Visitor
 {
     [Key]
     [Column("id")]
@@ -12,15 +12,19 @@ public class Statement
     [Column("description")]
     public string description { get; set; }
 
+    [Column("date_start")]
+    public DateTime date_start { get; set; }
+    
     [Column("date_end")]
     public DateTime date_end { get; set; }
 
     [Column("created_at")]
     public DateTime created_at { get; set; }
-
-    [Column("visible")]
-    public bool visible { get; set; }
-
-    [ForeignKey("user_id")]
+    
+    [Column("user_id")]
+    public int userId { get; set; }
     public User user { get; set; }
+
+    [Column("responsible_id")]
+    public int responsibleId { get; set; }
 }

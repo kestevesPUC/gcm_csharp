@@ -42,6 +42,8 @@ public class Vehicle
     public string Plate { get; set; }
     [Column("year")]
     public int? Year { get; set; }
+    [Column("vaga")]
+    public int? Vaga { get; set; }
 
     [Column("created_at")]
     public DateTime created_at { get; set; } = DateTime.UtcNow;

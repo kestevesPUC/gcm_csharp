@@ -17,7 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Occurrence> occurrence { get; set; }
     public DbSet<Profile> profile { get; set; }
     public DbSet<Status> status { get; set; }
-    public DbSet<Statement> statement { get; set; }
+    public DbSet<Visitor> visitor { get; set; }
     public DbSet<TypeVehicle> typevehicle { get; set; }
     public DbSet<User> user { get; set; }
     public DbSet<Vehicle> vehicle { get; set; }
