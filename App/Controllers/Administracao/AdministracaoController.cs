@@ -67,4 +67,55 @@ public class AdministracaoController : ControllerBase
             message = "Perfil Criado com sucesso!"
         };
     }
+
+    [HttpPost("areas")]
+    public async Task<dynamic> GetAreas()
+    {
+        return await _administracaoRepo.GetAreas();
+    }
+    [HttpPost("reserva-areas")]
+    public async Task<dynamic> ReservaArea([FromBody] dynamic data)
+    {
+        JObject jsonObj = JObject.Parse(data.ToString());
+        string dataInit = jsonObj["dataInit"]?.ToString();
+        string dataFim = jsonObj["dataFim"]?.ToString();
+        int area = int.Parse(jsonObj["area"]?.ToString());
+        int responsavel = int.Parse(jsonObj["responsavel"]?.ToString());
+
+        return await _administracaoRepo.ReservaArea(dataInit, dataFim, area, responsavel);
+    }
+
+    [HttpPost("recupera-reservas")]
+    public async Task<dynamic> RecuperaReservas()
+    {
+        return await _administracaoRepo.RecuperaReservas();
+    }
+
+    [HttpPost("upload")]
+    public async Task<dynamic> UploadImagem(IFormFile imagem)
+    {
+        if (imagem == null || imagem.Length == 0)
+            return BadRequest("Nenhuma imagem enviada.");
+
+        // Caminho da pasta 'storage' dentro do projeto
+        var pastaStorage = Path.Combine(Directory.GetCurrentDirectory(), "storage");
+
+        // Garante que a pasta exista
+        if (!Directory.Exists(pastaStorage))
+            Directory.CreateDirectory(pastaStorage);
+
+        // Caminho completo para salvar o arquivo
+        var caminhoCompleto = Path.Combine(pastaStorage, imagem.FileName);
+
+        using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+        {
+            await imagem.CopyToAsync(stream);
+        }
+
+        return new
+        {
+            success = true,
+            message = "Upload realizado com sucesso",
+        };
+    }
 }

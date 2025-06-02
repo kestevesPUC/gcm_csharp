@@ -21,6 +21,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<TypeVehicle> typevehicle { get; set; }
     public DbSet<User> user { get; set; }
     public DbSet<Vehicle> vehicle { get; set; }
+    public DbSet<Area> areas { get; set; }
+    public DbSet<Reserve> reserves { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

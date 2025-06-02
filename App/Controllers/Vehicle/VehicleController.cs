@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
 [Route("api/vehicle")]
@@ -87,6 +88,7 @@ public class VehicleController : ControllerBase
         vehicle.ColorId = int.Parse(jsonObj["color"]?.ToString());
         vehicle.ModelId = int.Parse(jsonObj["model"]?.ToString());
         vehicle.Plate = jsonObj["placa"]?.ToString();
+        vehicle.Vaga = int.Parse(jsonObj["vaga"]?.ToString());
 
         return await this._vehicleRepo.Create(vehicle);
     }

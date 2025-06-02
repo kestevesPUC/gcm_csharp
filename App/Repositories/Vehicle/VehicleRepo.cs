@@ -55,6 +55,7 @@ public class VehicleRepo
     {
         try
         {
+            
             this._context.vehicle.Add(vehicle);
 
             if (this._context.SaveChanges() > 0)
