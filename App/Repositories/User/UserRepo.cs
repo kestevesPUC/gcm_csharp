@@ -108,7 +108,7 @@ public class UserRepo
     {
         return await this._context.user
             .Include(u => u.Profile)
-            .Where(u => u.ProfileId != 2)
+            .Where(u => u.ProfileId != 2 && u.ProfileId != 5)
             .ToListAsync();
     }
 
