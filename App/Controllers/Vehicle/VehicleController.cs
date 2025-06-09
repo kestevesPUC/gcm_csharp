@@ -89,6 +89,7 @@ public class VehicleController : ControllerBase
         vehicle.ModelId = int.Parse(jsonObj["model"]?.ToString());
         vehicle.Plate = jsonObj["placa"]?.ToString();
         vehicle.Vaga = int.Parse(jsonObj["vaga"]?.ToString());
+        vehicle.Photo = jsonObj["photo"]?.ToString();
 
         return await this._vehicleRepo.Create(vehicle);
     }

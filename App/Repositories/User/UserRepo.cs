@@ -10,7 +10,7 @@ public class UserRepo
         this._context = contex;
     }
 
-    public async Task<dynamic> Create(string name, string email, string password, int bloco, int number, int perfil = 1, string cpf	= "")
+    public async Task<dynamic> Create(string name, string email, string password, int bloco, int number, int perfil = 1, string cpf	= "", string photo = "")
     {
         try
         {
@@ -22,6 +22,7 @@ public class UserRepo
             user.password = Util.GerarHashSenha(password);
             user.created_at = Util.DateTimeNow();
             user.cpf = cpf;
+            user.photo = photo;
 
             if (perfil == 2)
             {

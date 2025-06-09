@@ -102,9 +102,11 @@ public class UserController : ControllerBase
             bloco = int.Parse(jsonObj["bloco"]?.ToString());
             number = int.Parse(jsonObj["apto"]?.ToString());
         }
+        
+        
+        string photo = jsonObj["photo"]?.ToString() ?? "";
 
-
-        return await this._userRepo.Create(name, email, password, bloco, number, profile);
+        return await this._userRepo.Create(name, email, password, bloco, number, profile, "", photo);
     }
 
 

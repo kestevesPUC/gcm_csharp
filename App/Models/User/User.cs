@@ -13,6 +13,7 @@ public class User
     public string? email { get; set; }
     public string? password { get; set; }
     public string? cpf { get; set; }
+    public string? photo { get; set; }
     public DateTime created_at { get; set; }
     public DateTime? updated_at { get; set; }    
     

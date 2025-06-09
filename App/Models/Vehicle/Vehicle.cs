@@ -18,6 +18,9 @@ public class Vehicle
     public int UserId { get; set; }
     public User User { get; set; }
 
+    
+    [Column("photo")]
+    public string? Photo { get; set; } 
 
     [Column("type_id")]
     public int TypeId { get; set; }
