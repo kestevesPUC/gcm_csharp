@@ -255,6 +255,9 @@ namespace MinhaApi.Migrations
                     b.Property<string>("password")
                         .HasColumnType("text");
 
+                    b.Property<string>("photo")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("updated_at")
                         .HasColumnType("timestamp with time zone");
 
@@ -420,6 +423,10 @@ namespace MinhaApi.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("model_id");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("text")
+                        .HasColumnName("photo");
+
                     b.Property<string>("Plate")
                         .IsRequired()
                         .HasColumnType("text")
@@ -444,10 +451,6 @@ namespace MinhaApi.Migrations
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
-
-                    b.Property<string>("photo")
-                        .HasColumnType("text")
-                        .HasColumnName("photo");
 
                     b.HasKey("Id");
 

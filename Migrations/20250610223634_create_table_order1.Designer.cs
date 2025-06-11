@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MinhaApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250503224233_create_tables")]
-    partial class create_tables
+    [Migration("20250610223634_create_table_order1")]
+    partial class create_table_order1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,27 @@ namespace MinhaApi.Migrations
                     b.ToTable("address", "condominium");
                 });
 
+            modelBuilder.Entity("Area", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("area", "condominium");
+                });
+
             modelBuilder.Entity("Called", b =>
                 {
                     b.Property<int>("id")
@@ -68,25 +89,36 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("applicant_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("applicantId")
+                        .HasColumnType("integer")
+                        .HasColumnName("applicant_id");
 
                     b.Property<DateTime?>("created_at")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("responsible_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("status_id")
-                        .HasColumnType("integer");
+                    b.Property<int?>("responsibleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("responsible_id");
+
+                    b.Property<int>("statusId")
+                        .HasColumnType("integer")
+                        .HasColumnName("status_id");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.HasIndex("applicant_id");
+                    b.HasIndex("applicantId");
 
-                    b.HasIndex("responsible_id");
+                    b.HasIndex("responsibleId");
 
-                    b.HasIndex("status_id");
+                    b.HasIndex("statusId");
 
                     b.ToTable("called", "called");
                 });
@@ -202,13 +234,16 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("ApartmentId")
+                    b.Property<int?>("ApartmentId")
                         .HasColumnType("integer")
                         .HasColumnName("apartment_id");
 
                     b.Property<int>("ProfileId")
                         .HasColumnType("integer")
                         .HasColumnName("profile_id");
+
+                    b.Property<string>("cpf")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone");
@@ -221,7 +256,9 @@ namespace MinhaApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("password")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("photo")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("updated_at")
@@ -245,27 +282,33 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("called_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("calledId")
+                        .HasColumnType("integer")
+                        .HasColumnName("called_id");
+
+                    b.Property<DateTime?>("created_at")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("message")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("message");
 
-                    b.Property<int>("status_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("statusId")
+                        .HasColumnType("integer")
+                        .HasColumnName("status_id");
 
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("userId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("id");
 
-                    b.HasIndex("called_id");
+                    b.HasIndex("calledId");
 
-                    b.HasIndex("status_id");
+                    b.HasIndex("statusId");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("userId");
 
                     b.ToTable("occurrence", "called");
                 });
@@ -278,6 +321,9 @@ namespace MinhaApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
+                    b.Property<string>("description")
+                        .HasColumnType("text");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -287,40 +333,38 @@ namespace MinhaApi.Migrations
                     b.ToTable("profile", "administration");
                 });
 
-            modelBuilder.Entity("Statement", b =>
+            modelBuilder.Entity("Reserve", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                    b.Property<int>("areaId")
+                        .HasColumnType("integer")
+                        .HasColumnName("area_id");
 
-                    b.Property<DateTime>("date_end")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_end");
+                    b.Property<DateTime?>("created_at")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                    b.Property<DateTime?>("date_end")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("date_start")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("visible")
-                        .HasColumnType("boolean")
-                        .HasColumnName("visible");
+                    b.Property<int>("userId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("id");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("areaId");
 
-                    b.ToTable("statement", "user");
+                    b.HasIndex("userId");
+
+                    b.ToTable("reserve", "condominium");
                 });
 
             modelBuilder.Entity("Status", b =>
@@ -382,6 +426,10 @@ namespace MinhaApi.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("model_id");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("text")
+                        .HasColumnName("photo");
+
                     b.Property<string>("Plate")
                         .IsRequired()
                         .HasColumnType("text")
@@ -394,6 +442,14 @@ namespace MinhaApi.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
+
+                    b.Property<int?>("Vaga")
+                        .HasColumnType("integer")
+                        .HasColumnName("vaga");
+
+                    b.Property<int?>("Year")
+                        .HasColumnType("integer")
+                        .HasColumnName("year");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("timestamp with time zone")
@@ -414,31 +470,70 @@ namespace MinhaApi.Migrations
                     b.ToTable("vehicle", "vehicle");
                 });
 
+            modelBuilder.Entity("Visitor", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("date_end")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_end");
+
+                    b.Property<DateTime>("date_start")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_start");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int>("responsibleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("responsible_id");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("visitor", "user");
+                });
+
             modelBuilder.Entity("Called", b =>
                 {
-                    b.HasOne("MinhaApi.User", "applicant")
+                    b.HasOne("MinhaApi.User", "Applicant")
                         .WithMany()
-                        .HasForeignKey("applicant_id")
+                        .HasForeignKey("applicantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MinhaApi.User", "responsible")
+                    b.HasOne("MinhaApi.User", "Responsible")
                         .WithMany()
-                        .HasForeignKey("responsible_id")
+                        .HasForeignKey("responsibleId");
+
+                    b.HasOne("Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("statusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Status", "status")
-                        .WithMany()
-                        .HasForeignKey("status_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Applicant");
 
-                    b.Navigation("applicant");
+                    b.Navigation("Responsible");
 
-                    b.Navigation("responsible");
-
-                    b.Navigation("status");
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("MinhaApi.Apartment", b =>
@@ -467,9 +562,7 @@ namespace MinhaApi.Migrations
                 {
                     b.HasOne("MinhaApi.Apartment", "Apartment")
                         .WithMany()
-                        .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApartmentId");
 
                     b.HasOne("Profile", "Profile")
                         .WithMany()
@@ -486,19 +579,19 @@ namespace MinhaApi.Migrations
                 {
                     b.HasOne("Called", "called")
                         .WithMany()
-                        .HasForeignKey("called_id")
+                        .HasForeignKey("calledId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Status", "status")
                         .WithMany()
-                        .HasForeignKey("status_id")
+                        .HasForeignKey("statusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MinhaApi.User", "user")
                         .WithMany()
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -509,20 +602,28 @@ namespace MinhaApi.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Statement", b =>
+            modelBuilder.Entity("Reserve", b =>
                 {
-                    b.HasOne("MinhaApi.User", "user")
+                    b.HasOne("Area", "area")
                         .WithMany()
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("areaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MinhaApi.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("area");
 
                     b.Navigation("user");
                 });
 
             modelBuilder.Entity("Vehicle", b =>
                 {
-                    b.HasOne("MinhaApi.Brand", "brand")
+                    b.HasOne("MinhaApi.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -540,7 +641,7 @@ namespace MinhaApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TypeVehicle", "type")
+                    b.HasOne("TypeVehicle", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -552,15 +653,26 @@ namespace MinhaApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Brand");
+
                     b.Navigation("Color");
 
                     b.Navigation("Model");
 
+                    b.Navigation("Type");
+
                     b.Navigation("User");
+                });
 
-                    b.Navigation("brand");
+            modelBuilder.Entity("Visitor", b =>
+                {
+                    b.HasOne("MinhaApi.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("type");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("MinhaApi.Condominium", b =>
