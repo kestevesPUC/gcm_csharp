@@ -11,9 +11,17 @@ public class StatementRepo
 
     public async Task<dynamic> Read()
     {
-        return await this._context.statements
-            .Where(s => s.ativo == true)
-            .ToListAsync();
+        try
+        {
+            return await this._context.statements
+                .Where(s => s.ativo == true)
+                .ToListAsync();
+        }
+        catch (System.Exception e)
+        {
+
+            throw;
+        }
     }
 
     public async Task<dynamic> Create(string title, string description, string photo = "")
@@ -23,7 +31,7 @@ public class StatementRepo
         statement.ativo = true;
         statement.title = title;
         statement.description = description;
-        statement.description = photo;
+        statement.photo = photo;
         statement.data = Util.DateTimeNow();
 
         this._context.Add(statement);

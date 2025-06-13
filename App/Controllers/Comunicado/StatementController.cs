@@ -25,10 +25,10 @@ public class StatementController
     {
         JObject jsonObj = JObject.Parse(data.ToString());
         string title = jsonObj["title"]?.ToString() ?? "";
-        string description = jsonObj["description"]?.ToString() ?? "";
+        string mensagem = jsonObj["mensagem"]?.ToString() ?? "";
         string photo = jsonObj["photo"]?.ToString() ?? "";
 
-        return await this._statementRepo.Create(title, description, photo);
+        return await this._statementRepo.Create(title, mensagem, photo);
     }
 
     [HttpPost("update")]

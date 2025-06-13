@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MinhaApi;
 
-[Table("statement", Schema = "public")]
+[Table("statement", Schema = "user")]
 
 public class Statement
 {
