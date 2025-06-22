@@ -63,6 +63,7 @@ public class CalledRepo
                 occurrence.userId = applicantId;
                 occurrence.message = "Chamado aberto";
                 occurrence.statusId = 1;
+                occurrence.created_at = Util.DateTimeNow();
 
                 this._context.Add(occurrence);
                 this._context.SaveChanges();

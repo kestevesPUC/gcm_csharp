@@ -23,6 +23,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Vehicle> vehicle { get; set; }
     public DbSet<Area> areas { get; set; }
     public DbSet<Reserve> reserves { get; set; }
+    public DbSet<Order> orders { get; set; }
+    public DbSet<Statement> statements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
